@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
-// import 'dart:async';
+import 'dart:async';
 
 
 import 'package:flutter/material.dart';
@@ -10,11 +10,13 @@ class InstagramStorySwipe extends StatefulWidget {
   final List<Widget> children;
   final int initialPage;
   final InstagramSwipeController instagramSwipeController;
+  final int swipeTime;
 
   InstagramStorySwipe({
     @required this.children,
     this.initialPage = 0,
     this.instagramSwipeController,
+    this.swipeTime,
   }) {
     assert(children != null);
     assert(children.length != 0);
@@ -28,7 +30,7 @@ class _InstagramStorySwipeState extends State<InstagramStorySwipe> {
   PageController _pageController;
   double currentPageValue = 0.0;
 
- // Timer _timer;
+ Timer _timer;
 
   @override
   void initState() {
@@ -45,14 +47,14 @@ class _InstagramStorySwipeState extends State<InstagramStorySwipe> {
       widget.instagramSwipeController.pageController = _pageController;
     }
 
- //   _timer = Timer.periodic(Duration(seconds: 30), (timer) {
-//       if (_pageController.page < widget.children.length - 1) {
-//         _pageController.nextPage(
-//             duration: Duration(milliseconds: 500), curve: Curves.linear);
-//      } else {
-//        timer.cancel();
-//      }
-//     });
+   _timer = Timer.periodic(Duration(seconds: widget.swipeTime), (timer) {
+      if (_pageController.page < widget.children.length - 1) {
+        _pageController.nextPage(
+            duration: Duration(milliseconds: 500), curve: Curves.linear);
+     } else {
+       timer.cancel();
+     }
+    });
   }
 
   @override
